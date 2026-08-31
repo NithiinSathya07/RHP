@@ -1,0 +1,55 @@
+//https://atcoder.jp/contests/abc473/tasks/abc473_d
+//https://atcoder.jp/contests/abc473/submissions/78870296
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <array>
+#include <queue>
+using ll = long long;
+using namespace std;
+
+using combo = array<int,10>;
+vector<combo> ans;
+
+void dfs(int slot, int bal, combo arr)
+{
+    if(slot==1)
+    {
+        arr[slot-1] = bal;
+        ans.push_back(arr);
+        return;
+    }
+    arr[slot-1] = 0;
+    while(bal>=0)
+    {
+        dfs(slot-1, bal, arr);
+        arr[slot-1]++;
+        bal -= slot;
+    }
+}
+
+void solve()
+{
+    int N,K; cin >> N >> K;
+    combo arr;
+    dfs(N,K,arr);
+    sort(ans.begin(), ans.end());
+    for(combo c : ans)
+    {
+        for(int i=0; i<N; i++)
+        {
+            cout << c[i] << (i+1==N ? "\n" : " ");
+        }
+    }
+}
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int tc = 1;
+    while(tc--) solve();
+    return 0;
+}
